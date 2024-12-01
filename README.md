@@ -57,3 +57,6 @@ You can follow the same methodology to create a new control flow obfuscation tec
 Make sure to use the specific libraries under requirements.txt
 Especially for "qiskit-terra", 'qiskit-aer' and 'qiskit'
 pip install -r requirements.txt
+
+## PQC Encryption
+This is a segment that is under experimentation to see if its viable as an additional offering.
