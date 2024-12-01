@@ -1,0 +1,8 @@
+/pycache
+*.pyc
+env
+env/ 
+pycache
+env\
+/idea
+.venv
