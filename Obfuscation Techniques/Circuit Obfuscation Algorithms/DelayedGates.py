@@ -1,11 +1,7 @@
 import sys
-import time
 import random
 from qiskit import QuantumCircuit
-from qiskit.execute_function import execute
-from qiskit_aer import AerSimulator
-from qiskit.visualization import circuit_drawer
-import matplotlib.pyplot as plt
+from functions import execute_circuit, plot_circuits, save_circuit_to_qasm
 
 
 def apply_complex_obfuscation(circuit, qr):
@@ -38,7 +34,7 @@ def obfuscate_circuit(circuit, qr, obfuscate=False):
     return circuit
 
 
-def insert_obfuscation(circuit):
+def insert_obfuscation(circuit: QuantumCircuit) -> QuantumCircuit:
     new_circuit = QuantumCircuit(*circuit.qregs, *circuit.cregs)
     qr = circuit.qubits
     measurement_instructions = []
@@ -61,19 +57,6 @@ def insert_obfuscation(circuit):
     return new_circuit
 
 
-def execute_circuit(circuit):
-    simulator = AerSimulator()
-    execution_times = []
-    for _ in range(10):
-        start_time = time.time()
-        job = execute(circuit, simulator, shots=1024)
-        result = job.result()
-        end_time = time.time()
-        execution_times.append(end_time - start_time)
-    average_execution_time = sum(execution_times) / len(execution_times)
-    return result.get_counts(), average_execution_time
-
-
 def compare_results(original, obfuscated):
     keys = set(original.keys()).union(obfuscated.keys())
     total = sum(original.values())
@@ -89,36 +72,6 @@ def interpret_results(results):
     for key, value in results.items():
         hidden_string = key
         print(f"Result: {hidden_string}, Count: {value}")
-
-
-def save_circuit_to_qasm(circuit, filename):
-    with open(filename, 'w') as f:
-        f.write(circuit.qasm())
-
-
-def plot_circuits(original_circuit, obfuscated_circuit):
-    original_plot = circuit_drawer(original_circuit, output='mpl', style='clifford')
-    obfuscated_plot = circuit_drawer(obfuscated_circuit, output='mpl', style='clifford')
-
-    original_plot.savefig('original_circuit.png')
-    obfuscated_plot.savefig('obfuscated_circuit.png')
-
-    original_image = plt.imread('original_circuit.png')
-    obfuscated_image = plt.imread('obfuscated_circuit.png')
-
-    plt.figure(figsize=(12, 6))
-
-    plt.subplot(121)
-    plt.title('Original Circuit')
-    plt.imshow(original_image)
-    plt.axis('off')
-
-    plt.subplot(122)
-    plt.title('Obfuscated Circuit')
-    plt.imshow(obfuscated_image)
-    plt.axis('off')
-
-    plt.show()
 
 
 def main():
@@ -156,7 +109,6 @@ def main():
 
     # Plot the circuits
     plot_circuits(original_circuit, obfuscated_circuit)
-
 
 if __name__ == "__main__":
     main()

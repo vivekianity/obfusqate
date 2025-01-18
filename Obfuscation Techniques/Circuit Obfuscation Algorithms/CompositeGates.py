@@ -1,11 +1,8 @@
 import sys
-import time
 import random
 from qiskit import QuantumCircuit
-from qiskit.execute_function import execute
-from qiskit_aer import AerSimulator
-from qiskit.visualization import circuit_drawer
-import matplotlib.pyplot as plt
+from functions import execute_circuit, plot_circuits, save_circuit_to_qasm
+
 
 def auxiliary_gate():
     sub_circuit = QuantumCircuit(1, name='auxiliary')
@@ -19,6 +16,7 @@ def auxiliary_gate():
     auxiliary.name = 'auxiliary'
     return auxiliary
 
+
 def restore_gate():
     sub_circuit = QuantumCircuit(1, name='restore')
     sub_circuit.x(0)
@@ -31,12 +29,14 @@ def restore_gate():
     restore.name = 'restore'
     return restore
 
+
 def encapsulate_original_gate(gate, num_qubits):
     sub_circuit = QuantumCircuit(num_qubits, name='encapsulated')
     sub_circuit.append(gate, list(range(num_qubits)))
     encapsulated = sub_circuit.to_gate()
     encapsulated.name = 'FourierTransform'
     return encapsulated
+
 
 def apply_auxiliary_gates(circuit, qr):
     for qubit in qr:
@@ -54,6 +54,7 @@ def obfuscate_circuit(circuit, obfuscate=False):
         apply_auxiliary_gates(circuit, qr)
         apply_restore_gates(circuit, qr)
     return circuit
+
 
 def insert_obfuscation(circuit, encapsulate_probability=0.5):
     """ Insert obfuscation gates and partially encapsulate original gates within composite gates """
@@ -83,17 +84,6 @@ def insert_obfuscation(circuit, encapsulate_probability=0.5):
 
     return new_circuit
 
-def execute_circuit(circuit):
-    simulator = AerSimulator()
-    execution_times = []
-    for _ in range(10):
-        start_time = time.time()
-        job = execute(circuit, simulator, shots=1024)
-        result = job.result()
-        end_time = time.time()
-        execution_times.append(end_time - start_time)
-    average_execution_time = sum(execution_times) / len(execution_times)
-    return result.get_counts(), average_execution_time
 
 def compare_results(original, obfuscated):
     keys = set(original.keys()).union(obfuscated.keys())
@@ -105,33 +95,6 @@ def compare_results(original, obfuscated):
         correct += min(original_count, obfuscated_count)
     return 100 * correct / total if total > 0 else 0
 
-def save_circuit_to_qasm(circuit, filename):
-    with open(filename, 'w') as f:
-        f.write(circuit.qasm())
-
-def plot_circuits(original_circuit, obfuscated_circuit):
-    original_plot = circuit_drawer(original_circuit, output='mpl', style='clifford')
-    obfuscated_plot = circuit_drawer(obfuscated_circuit, output='mpl', style='clifford')
-
-    original_plot.savefig('original_circuit.png')
-    obfuscated_plot.savefig('obfuscated_circuit.png')
-
-    original_image = plt.imread('original_circuit.png')
-    obfuscated_image = plt.imread('obfuscated_circuit.png')
-
-    plt.figure(figsize=(12, 6))
-
-    plt.subplot(121)
-    plt.title('Original Circuit')
-    plt.imshow(original_image)
-    plt.axis('off')
-
-    plt.subplot(122)
-    plt.title('Obfuscated Circuit')
-    plt.imshow(obfuscated_image)
-    plt.axis('off')
-
-    plt.show()
 
 def main():
     if len(sys.argv) != 2:
@@ -167,7 +130,7 @@ def main():
     print(f"Original Circuit Execution Time: {original_time:.4f} seconds")
     print(f"Obfuscated Circuit Execution Time: {obfuscated_time:.4f} seconds")
 
-    save_circuit_to_qasm(obfuscated_circuit, output_qasm)
+    save_circuit_to_qasm(obfuscated_circuit, 'CompositeGates.qasm')
 
     # Plot the circuits
     plot_circuits(original_circuit, obfuscated_circuit)
