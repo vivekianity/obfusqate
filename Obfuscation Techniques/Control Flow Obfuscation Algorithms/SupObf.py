@@ -1,7 +1,7 @@
 import ast
 import random
 import sys
-
+from constants import execute_circuit, imports
 
 # This Obfuscation is meant to work on code that contains only one function definition
 def extract_random_function_and_imports(file_path):
@@ -90,10 +90,8 @@ def main():
         sys.exit(1)
 
     sample_code_path = sys.argv[1]
-    opaque_pred_code = """
-from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
-from qiskit.execute_function import execute
-from qiskit_aer import AerSimulator
+    opaque_pred_code = f"""
+{imports}
 
 def create_initial_circuit():
     qr = QuantumRegister(5, 'q')
@@ -124,11 +122,7 @@ def create_initial_circuit():
     circuit.measure(qr[:4], cr[:4])
     return circuit, qr, cr
 
-def execute_circuit(circuit):
-    backend = AerSimulator()
-    result = execute(circuit, backend, shots=1000).result()
-    counts = result.get_counts(circuit)
-    return counts
+{execute_circuit}
 
 def pather(counts):
     selection = max(counts.items(), key=lambda item: item[1])[0][::-1]

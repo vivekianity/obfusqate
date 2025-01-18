@@ -1,7 +1,7 @@
 import ast
 import sys
 import random
-
+from constants import imports, execute_circuit, measure_all
 
 # This Obfuscation is meant to work on code that contains at least 2 function declarations that contain no operations
 def obfuscate_code(input_file, output_file):
@@ -54,9 +54,8 @@ def obfuscate_code(input_file, output_file):
     # Create the obfuscated code
     obfuscated_code = f"""
 {imports_code}
-from qiskit import QuantumCircuit, Aer
-from qiskit.execute_function import execute
-
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import Aer
 
 # Create a quantum circuit with one qubit
 qc = QuantumCircuit(1)
@@ -66,8 +65,8 @@ qc.h(0)  # Put the qubit in superposition using a Hadamard gate
 simulator = Aer.get_backend('statevector_simulator')
 
 # Execute the circuit on the statevector simulator
-job = execute(qc, simulator)
-result = job.result()
+transpiled = transpile(qc, simulator)
+result = simulator.run(transpiled, shots=1024).result()
 
 # Grab results from the job
 statevector = result.get_statevector()

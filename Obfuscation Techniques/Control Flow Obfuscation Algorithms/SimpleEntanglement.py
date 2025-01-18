@@ -1,7 +1,7 @@
 import ast
 import random
 import sys
-
+from constants import imports, execute_circuit, measure_all
 
 # This Obfuscation is meant to work on code that contains only one function definition
 def extract_random_function_and_imports(file_path):
@@ -50,16 +50,13 @@ qc = QuantumCircuit(qr, cr)
 
 create_entangled_pair(qc, qr)
 measure_all(qc, qr, cr)
-result = execute_circuit(qc)
+result = list(execute_circuit(qc).keys())[0]
 
 
-if result == [0, 0]:
+if result == '00' or result == '11':
     {random_function_code}
 
-elif result == [1, 1]:
-    {random_function_code}
-
-elif result == [0, 1]:
+elif result == '01':
     def run_bell_state():
         # You may change this function to do something else entirely
         qr = QuantumRegister(2)
@@ -72,7 +69,7 @@ elif result == [0, 1]:
         print(qc.draw(output='text'))
         circuit_drawer(qc, output='mpl', style='clifford')
 
-elif result == [1, 0]:
+elif result == '10':
     # You may add another function here        
     def fibonacci_sequence(n=20):
         print(f"Fibonacci Sequence up to {{n}} terms:")
@@ -81,10 +78,7 @@ elif result == [1, 0]:
             fib.append(fib[-1] + fib[-2])
         print(fib)
 {sample_code} 
-
-
 """
-
     return new_code
 
 
@@ -94,27 +88,19 @@ def main():
         sys.exit(1)
 
     sample_code_path = sys.argv[1]
-    simple_entanglement_code = """
-from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
-from qiskit.execute_function import execute
-from qiskit_aer import AerSimulator
+    
+    simple_entanglement_code = f'''
+{imports}
+
 from qiskit.visualization import circuit_drawer
 
 def create_entangled_pair(qc, qr):
     qc.h(qr[0])
     qc.cx(qr[0], qr[1])
 
-def measure_all(qc, qr, cr):
-    qc.measure(qr, cr)
-
-def execute_circuit(qc, backend_name=AerSimulator(), shots=1024):
-    backend = backend_name
-    result = execute(qc, backend, shots=shots).result()
-    counts = result.get_counts(qc)
-    # Directly read the result from the counts
-    measured_result = list(counts.keys())[0]
-    return [int(bit) for bit in measured_result]
-"""
+{measure_all}
+{execute_circuit}
+'''
 
     new_code = modularize_simple_entanglement(sample_code_path, simple_entanglement_code)
 
