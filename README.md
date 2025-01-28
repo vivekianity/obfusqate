@@ -55,8 +55,15 @@ You can follow the same methodology to create a new control flow obfuscation tec
 ## Libraries
 
 Make sure to use the specific libraries under requirements.txt
-Especially for "qiskit-terra", 'qiskit-aer' and 'qiskit'
-pip install -r requirements.txt
+
+`pip install -r requirements.txt`
 
 ## PQC Encryption
-This is a segment that is under experimentation to see if its viable as an additional offering.
+After installing the packages in requirements.txt file using the command `pip install -r requirements.txt`, follow the below steps to ensure that `kyberencryption.py` file works as usual:
+1. Clone the given repo `https://github.com/kpdemetriou/pqcrypto` within the current repo itself.
+```
+git clone https://github.com/kpdemetriou/pqcrypto.git
+```
+2. After cloning, cd into the pqcrypto folder and run the `compile.py` file present inside the pqcrypto folder. Wait for it to be completed.
+3. After completion of execution of the `compile.py` file, copy the kem, _kem, sign and _sign folders over to  `\ITP-Quantum-Obfuscation-.venv\Lib\site-packages\pqcrypto`. Replace existing folders with the copied folders.
+4. Now you can delete the cloned of pqcyrpto repo.
