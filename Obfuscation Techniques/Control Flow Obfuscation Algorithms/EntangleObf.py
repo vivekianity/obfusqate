@@ -1,7 +1,6 @@
 import ast
 import random
 import sys
-from constants import imports, execute_circuit, measure_all
 
 
 # This Obfuscation is meant to work on code that contains only one function definition
@@ -16,15 +15,22 @@ def extract_random_function_and_imports(file_path):
 
 def indent_function_body(function_code):
     lines = function_code.split('\n')
-    print(f'Lines = {lines}')
-    indented_lines = [lines[0]] + ['    ' + line for line in lines[1:]]
+    indented_lines = [lines[0]] + ['    ' + line if line else line for line in lines[1:]]
     return '\n'.join(indented_lines)
 
 
 def modularize_opaque_pred(sample_code_path, opaque_pred_code):
     random_function, imports, sample_code_body = extract_random_function_and_imports(sample_code_path)
     if random_function is None:
-        raise ValueError("No function found in the sample code")
+        wrapper = ast.FunctionDef(
+            name="__wrapped_main__",
+            args=ast.arguments(posonlyargs=[], args=[], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None,
+                               defaults=[]),
+            body=sample_code_body.copy(),
+            decorator_list=[]
+        )
+        random_function = ast.fix_missing_locations(wrapper)
+        sample_code_body.clear()
 
     # Remove repeated imports from the sample code imports list
     unique_imports = {}
@@ -35,13 +41,17 @@ def modularize_opaque_pred(sample_code_path, opaque_pred_code):
     # Convert the selected function and imports back to code
     random_function_code = indent_function_body(ast.unparse(random_function))
     imports_code = "\n".join(ast.unparse(node) for node in unique_imports.values())
-    sample_code_body.remove(random_function)
+    try:
+        sample_code_body.remove(random_function)
+    except ValueError:
+        pass
     sample_code = "\n".join(
         ast.unparse(node) for node in sample_code_body if not isinstance(node, (ast.Import, ast.ImportFrom)))
 
     # Integrate everything into the new obfuscated code
     new_code = f"""
 {imports_code}
+
 {opaque_pred_code}
 
 num_pairs = 8
@@ -74,8 +84,9 @@ def main():
         sys.exit(1)
 
     sample_code_path = sys.argv[1]
-    opaque_pred_code = f'''
-{imports}
+    opaque_pred_code = """
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile
+from qiskit_aer import AerSimulator
 from qiskit.visualization import circuit_drawer
 import os, sys
 
@@ -84,10 +95,16 @@ def create_entangled_pairs(qc, qr):
         qc.h(qr[i])
         qc.cx(qr[i], qr[i + 1])
 
-{measure_all}
-{execute_circuit}
-'''
-    entangler = '''
+def measure_all(qc, qr, cr):
+    qc.measure(qr, cr)
+
+def execute_circuit(qc, backend_name=AerSimulator(), shots=1024):
+    backend = backend_name
+    # Transpile the circuit for the backend
+    transpiled_circuit = transpile(qc, backend)
+    result = backend.run(transpiled_circuit, shots=shots).result()
+    return result.get_counts()
+
 def entangler(num_pairs):
     qr = QuantumRegister(num_pairs * 2)
     cr = ClassicalRegister(num_pairs * 2)
@@ -96,9 +113,15 @@ def entangler(num_pairs):
     measure_all(qc, qr, cr)
     counts = execute_circuit(qc)
     return counts
-'''
-    
-    new_code = modularize_opaque_pred(sample_code_path, opaque_pred_code + entangler)
+
+    print("Simulator result")
+    for outcome, count in counts.items():
+        print(f"{outcome} is observed {count} times")
+
+    print(qc.draw(output='text'))
+"""
+
+    new_code = modularize_opaque_pred(sample_code_path, opaque_pred_code)
 
     output_file = 'ObfuscatedEntangleObf.py'
     with open(output_file, 'w') as file:

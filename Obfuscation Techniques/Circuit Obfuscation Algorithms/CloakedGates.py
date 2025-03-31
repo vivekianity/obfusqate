@@ -1,8 +1,11 @@
 import sys
+import time
 import random
-from qiskit import QuantumCircuit
-from functions import plot_circuits, execute_circuit, save_circuit_to_qasm
-
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit.visualization import circuit_drawer
+import matplotlib.pyplot as plt
+from qiskit.qasm3 import dumps as qasm3_dumps
 
 substitution_map = {
     'x': [
@@ -31,7 +34,6 @@ substitution_map = {
     ]
 }
 
-
 # Function to dynamically substitute gates with random strategies, skipping rotation gates
 def substitute_gate(circuit, instr, qargs):
     gate_name = instr.name
@@ -59,11 +61,9 @@ def substitute_gate(circuit, instr, qargs):
 # Function to dynamically apply obfuscation
 def apply_dynamic_obfuscation(circuit, qr):
     new_circuit = QuantumCircuit(*circuit.qregs, *circuit.cregs)
-
     for instr, qargs, cargs in circuit.data:
         # Dynamically substitute each gate, skipping rotation gates
         substitute_gate(new_circuit, instr, qargs)
-
     return new_circuit
 
 # Wrapper to call the obfuscation on the entire circuit
@@ -95,6 +95,23 @@ def insert_dynamic_obfuscation(circuit):
 
     return new_circuit
 
+# Function to execute the circuit and get results using transpile instead of execute
+def execute_circuit(circuit):
+    simulator = AerSimulator()
+    execution_times = []
+    counts = None
+    for _ in range(10):
+        start_time = time.time()
+        # Transpile the circuit for the simulator
+        transpiled = transpile(circuit, simulator)
+        # Run the transpiled circuit on the simulator
+        result = simulator.run(transpiled, shots=1024).result()
+        counts = result.get_counts()
+        end_time = time.time()
+        execution_times.append(end_time - start_time)
+    average_execution_time = sum(execution_times) / len(execution_times)
+    return counts, average_execution_time
+
 # Function to compare results of original and obfuscated circuits
 def compare_results(original, obfuscated):
     keys = set(original.keys()).union(obfuscated.keys())
@@ -106,24 +123,59 @@ def compare_results(original, obfuscated):
         correct += min(original_count, obfuscated_count)
     return 100 * correct / total if total > 0 else 0
 
-
 # Function to interpret and print the results
 def interpret_results(results):
     for key, value in results.items():
         hidden_string = key
         print(f"Result: {hidden_string}, Count: {value}")
 
+# Function to save the obfuscated circuit to a QASM file
+def save_circuit_to_qasm3(circuit, filename):
+
+    qasm_output = qasm3_dumps(circuit)
+    with open(filename, 'w') as f:
+        f.write(qasm_output)
+
+# Function to plot and compare the original and obfuscated circuits
+def plot_circuits(original_circuit, obfuscated_circuit):
+    original_plot = circuit_drawer(original_circuit, output='mpl', style='clifford')
+    obfuscated_plot = circuit_drawer(obfuscated_circuit, output='mpl', style='clifford')
+
+    original_plot.savefig('original_circuit.png')
+    obfuscated_plot.savefig('obfuscated_circuit.png')
+
+    original_image = plt.imread('original_circuit.png')
+    obfuscated_image = plt.imread('obfuscated_circuit.png')
+
+    plt.figure(figsize=(12, 6))
+
+    plt.subplot(121)
+    plt.title('Original Circuit')
+    plt.imshow(original_image)
+    plt.axis('off')
+
+    plt.subplot(122)
+    plt.title('Obfuscated Circuit')
+    plt.imshow(obfuscated_image)
+    plt.axis('off')
+
+    plt.show()
 
 # Main function to run the script
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python DynamicObfuscation.py input.qasm")
+        print("Usage: python CloakedGates.py input.qasm")
         sys.exit(1)
 
     input_qasm = sys.argv[1]
     output_qasm = 'CloakedGatesObf.qasm'
 
-    original_circuit = QuantumCircuit.from_qasm_file(input_qasm)
+    try:
+        original_circuit = QuantumCircuit.from_qasm_file(input_qasm)
+    except Exception:
+        from qiskit.qasm3 import loads as qasm3_loads
+        with open(input_qasm, 'r') as f:
+            original_circuit = qasm3_loads(f.read())
     obfuscated_circuit = insert_dynamic_obfuscation(original_circuit)
 
     print("\nOriginal Circuit:")
@@ -131,6 +183,12 @@ def main():
 
     print("\nObfuscated Circuit:")
     print(obfuscated_circuit.draw(output='text'))
+
+    # Check and print the circuit depths
+    original_depth = original_circuit.depth()
+    obfuscated_depth = obfuscated_circuit.depth()
+    print(f"\nOriginal circuit depth: {original_depth}")
+    print(f"Obfuscated circuit depth: {obfuscated_depth}")
 
     original_results, original_time = execute_circuit(original_circuit)
     obfuscated_results, obfuscated_time = execute_circuit(obfuscated_circuit)
@@ -146,7 +204,7 @@ def main():
     print(f"Original Circuit Execution Time: {original_time:.4f} seconds")
     print(f"Obfuscated Circuit Execution Time: {obfuscated_time:.4f} seconds")
 
-    save_circuit_to_qasm(obfuscated_circuit, output_qasm)
+    save_circuit_to_qasm3(obfuscated_circuit, output_qasm)
 
     # Plot the circuits
     plot_circuits(original_circuit, obfuscated_circuit)

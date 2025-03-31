@@ -1,16 +1,18 @@
 import numpy as np
 from qiskit import QuantumCircuit
+from qiskit.qasm3 import dumps as qasm3_dumps
 
 # Parameters for the random circuit
 # Change them accordingly
-num_qubits = 4
-depth = 3
+num_qubits = 3
+depth = 4
 
 # Initialize a quantum circuit
 qc = QuantumCircuit(num_qubits, num_qubits)
 
 # Define possible gates to apply
 single_qubit_gates = ['x', 'y', 'z', 's', 't']
+
 two_qubit_gates = ['cx', 'cz']
 
 # Apply random gates to the circuit
@@ -43,6 +45,8 @@ for _ in range(depth):
 # Add measurement operations
 qc.measure(range(num_qubits), range(num_qubits))
 
-# Output the circuit as QASM
-qasm_output = qc.qasm()
-print(qasm_output)
+# Convert the circuit to QASM 3
+qasm3_output = qasm3_dumps(qc)
+
+# Print QASM 3 to the console
+print(qasm3_output)
