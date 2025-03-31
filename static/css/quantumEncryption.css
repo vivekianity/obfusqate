@@ -1,0 +1,70 @@
+@font-face {
+    font-family: lemonmilk;
+    src: url('../fonts/LemonMilk.otf');
+}
+
+/*League Spartan font*/
+@font-face {
+    font-family: ls;
+    src: url('../fonts/ls.otf');
+}
+
+@font-face {
+    font-family: cc;
+    src: url('../fonts/cc.otf');
+}
+
+@font-face {
+    font-family: sc;
+    src: url('../fonts/sc.ttf');
+}
+
+@font-face {
+    font-family: sm;
+    src: url('../fonts/sm.ttf');
+}
+
+.method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    background: #f7f7f7;
+    padding: 2em;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.method img {
+    margin: 0 auto;
+    max-width: 100%;
+    border-radius: 5px;
+    height: auto;
+}
+
+.method-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    width: 100%;
+    flex-direction: row;
+}
+
+.use-button {
+    margin: 0;
+    flex-grow: 0; 
+    font-size: 1rem;
+}
+
+
+.info-icon {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #555;
+}
+
+.modal-content p {
+    font-family: sm;
+    color: black;
+    font-size: 1em;
+}

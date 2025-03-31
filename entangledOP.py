@@ -1,0 +1,105 @@
+import ast
+import random
+
+def extract_random_function_and_imports(code_content):
+    tree = ast.parse(code_content)
+    functions = [node for node in tree.body if isinstance(node, ast.FunctionDef)]
+    imports = [node for node in tree.body if isinstance(node, (ast.Import, ast.ImportFrom))]
+    return random.choice(functions) if functions else None, imports, tree.body
+
+def indent_function_body(function_code):
+    lines = function_code.split('\n')
+    indented_lines = [lines[0]] + ['    ' + line if line else line for line in lines[1:]]
+    return '\n'.join(indented_lines)
+
+def modularize_opaque_pred(sample_code, opaque_pred_code):
+    random_function, imports, sample_code_body = extract_random_function_and_imports(sample_code)
+    if random_function is None:
+        raise ValueError("No function found in the sample code")
+
+    # Remove repeated imports from the sample code imports list
+    unique_imports = {}
+    for node in imports:
+        for alias in node.names:
+            unique_imports[alias.name] = node
+
+    # Convert the selected function and imports back to code
+    random_function_code = indent_function_body(ast.unparse(random_function))
+    imports_code = "\n".join(ast.unparse(node) for node in unique_imports.values())
+    sample_code_body.remove(random_function)
+    sample_code = "\n".join(ast.unparse(node) for node in sample_code_body if not isinstance(node, (ast.Import, ast.ImportFrom)))
+
+    # Integrate everything into the new obfuscated code
+    new_code = f"""
+{imports_code}
+
+{opaque_pred_code}
+
+num_pairs = 8
+counts = entangler(num_pairs)
+
+if sum(int(bit) for bit in max(counts, key=counts.get)) == num_pairs * 2:
+    def run_bell_state():
+        # You may change this function to do something else entirely
+        qr = QuantumRegister(2)
+        cr = ClassicalRegister(2)
+        qc = QuantumCircuit(qr, cr)
+        qc.h(qr[0])
+        qc.cx(qr[0], qr[1])
+        measure_all(qc, qr, cr)
+        print("Bell State Algorithm result")
+        print(qc.draw(output='text'))
+        circuit_drawer(qc, output='mpl', style='clifford')
+    os.execv(sys.executable, ['python'] + sys.argv)
+else:
+    {random_function_code}
+    
+{sample_code}    
+"""
+    return new_code
+
+def eop_obfuscate_and_execute(code_content):
+
+    opaque_pred_code = """
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile
+from qiskit_aer import AerSimulator
+from qiskit.visualization import circuit_drawer
+import os, sys
+
+def create_entangled_pairs(qc, qr):
+    for i in range(0, qr.size, 2):
+        qc.h(qr[i])
+        qc.cx(qr[i], qr[i + 1])
+
+def measure_all(qc, qr, cr):
+    qc.measure(qr, cr)
+
+def execute_circuit(qc, backend_name=AerSimulator(), shots=1024):
+    backend = backend_name
+    # Transpile the circuit for the backend
+    transpiled_circuit = transpile(qc, backend)
+    result = backend.run(transpiled_circuit, shots=shots).result()
+    return result.get_counts()
+
+def entangler(num_pairs):
+    qr = QuantumRegister(num_pairs * 2)
+    cr = ClassicalRegister(num_pairs * 2)
+    qc = QuantumCircuit(qr, cr)
+    create_entangled_pairs(qc, qr)
+    measure_all(qc, qr, cr)
+    counts = execute_circuit(qc)
+    return counts
+
+    print("Simulator result")
+    for outcome, count in counts.items():
+        print(f"{outcome} is observed {count} times")
+
+    print(qc.draw(output='text'))
+"""
+    obfuscated_code = modularize_opaque_pred(code_content, opaque_pred_code)
+
+    return {
+        'original_code': code_content,
+        'obfuscated_code': obfuscated_code,
+    }
+

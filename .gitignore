@@ -1,8 +1,9 @@
-/pycache
+/__pycache__
 *.pyc
 env
 env/ 
-pycache
+__pycache__
 env\
 /idea
 .venv
+.env

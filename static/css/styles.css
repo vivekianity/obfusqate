@@ -1,0 +1,294 @@
+#CSS for index
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    font-family: "Inter", "Inter Placeholder", sans-serif;
+    color: #FFFFFF;
+    margin-left: -809px;
+    margin-right: 10px;
+    overflow-x: hidden;
+}
+
+
+.index .container {
+    text-align: center;
+    width: 100%;
+}
+
+.index .header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    font-weight: 700;
+    font-size: 25px;
+    color: #333;
+
+    }
+
+.index .main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url('../images/logo.png') no-repeat center center;
+    background-size: cover;
+    border-radius: 0px;
+    padding: 50px 50px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 7000px;
+    width: 400%;
+    margin: 0 10px;
+    min-height: 70vh;
+
+}
+
+.index .main-content h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 0;
+    color: #FFFFFF;
+}
+
+.index .main-content h2 {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.index .buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.index button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.index button:hover {
+    background-color: #ddd;
+}
+
+.index button.get-started {
+    background-color: #FFFFFF;
+    color: #333333;
+}
+
+.index button.how-to-use {
+    background-color:#FFFFFF;
+    color: #333333;
+    border: 1px solid #FFFFFF;
+}
+
+.index .footer {
+    margin-top: 5px;
+    font-size: 14px;
+    padding: 8px;
+    position: absolute;
+    left: -600px;
+    color: #333;
+    bottom: 0;
+    left: 10%;
+    transform: translateX(-50%);
+}
+
+/* Methods CSS */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    padding: 0px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    align-items: center;
+
+    }
+
+.back-button {
+    color: #000000;
+    background:none;
+    border: none;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left:1200px;
+    margin-top: 1000px;
+    margin-bottom: 300px;
+}
+
+main {
+    padding: 0px;
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    margin-left:1500px;
+}
+
+h1 {
+    color: #333;
+    font-size: 90px;
+    margin-bottom: 50px;
+    margin-top:-320px;
+    padding: 0px;
+    margin-left:140px;
+}
+
+.method {
+    display: flex;
+    align-items: center;
+    margin-left: -30px;
+    margin-right: -1000px;
+    padding: 10px;
+    max-width: 800px;
+}
+
+.method img {
+    max-width: 250px;
+    border-radius: 5px;
+    min-height: 20vh;
+    margin-right:110px;
+    margin-left: 100px;
+}
+
+.method-info {
+    text-align: left;
+    flex: 1;
+}
+
+.method-info h2 {
+    color: #333;
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.use-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 1em 1.5em;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size:20px;
+    font-weight: bold;
+    margin-left: 50px;
+
+}
+
+.use-button:hover {
+    background-color: #555;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    background-color: #f8f9fa;
+    position: relative;
+    width: 100%;
+    bottom: 0;
+}
+
+.howto-page {
+    font-family: Arial, sans-serif;
+    font-color: black;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.howto-page header {
+    width: 100%;
+    padding: 1em;
+    text-align: center;
+    position: relative;
+}
+.howto-page .back-button {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.howto-page main {
+    padding: 1em;
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+}
+.howto-page h1, .howto-page h2 {
+    color: #333;
+    font-size: 2em;
+    margin: 0.25em 0;
+}
+.howto-page .steps-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.howto-page .step {
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 1em;
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.howto-page .step img {
+    width: 100%;
+    height: auto;
+}
+.howto-page .step h3 {
+    margin: 1em 0;
+    font-size: 1.25em;
+    color: black;
+}
+.howto-page .step p {
+    padding: 0 1em 1em 1em;
+    font-size: 1em;
+    color: #666;
+    margin: 0;
+}
+.howto-page .step .description {
+    padding: 1em;
+    background-color: #fff;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+
+

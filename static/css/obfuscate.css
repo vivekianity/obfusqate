@@ -1,0 +1,476 @@
+@font-face {
+    font-family: lemonmilk;
+    src: url('../fonts/LemonMilk.otf');
+}
+
+/*League Spartan font*/
+@font-face {
+    font-family: ls;
+    src: url('../fonts/ls.otf');
+}
+
+@font-face {
+    font-family: cc;
+    src: url('../fonts/cc.otf');
+}
+
+@font-face {
+    font-family: sc;
+    src: url('../fonts/sc.ttf');
+}
+
+@font-face {
+    font-family: sm;
+    src: url('../fonts/sm.ttf');
+}
+
+
+.obfuscate-main {
+    text-align: center;
+    margin-top: 50px;
+    min-height: 80vh; /* Use min-height instead of height */
+    padding-bottom: 2em; /* Add padding to avoid overlap with the footer */
+}
+
+.obfuscate-main h1
+{
+    font-family: lemonmilk;
+    text-align: center;
+    font-size: 2.2em;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6em;
+    margin-left: 2em;
+}
+
+
+.input-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 50%;
+}
+
+.obfuscate-input {
+    padding: 0.5em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%; /* Set to 100% to be responsive */
+    max-width: 600px; /* Limit maximum width on larger screens */
+    height: 10em;
+    resize: vertical; /* Allow users to resize the height */
+}
+
+.file-upload-button {
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+}
+button {
+    color: #fff;
+    cursor: pointer;
+}
+.separator {
+    width: 10%;
+    text-align: center;
+}
+.separator span {
+    font-size: 2em;
+    color: #555;
+    font-weight: 600;
+}
+.upload-info {
+    font-size: 1.2em;
+    color: black;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 400;
+
+}
+
+.file-upload-button {
+    display: block;
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.obfuscate-button {
+    display: block;
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.obfuscate-button:hover {
+    background-color: #c9302c;
+}
+
+@media (max-width: 768px) {
+    .obfuscate-main h1 {
+        font-size: 1.8em;
+    }
+
+    .input-container {
+        flex-direction: column; /* Stack columns vertically */
+        gap: 1.5em;
+        margin-top: 3em;
+        margin-left: 0;
+    }
+
+    .input-column {
+        width: 80%; 
+    }
+
+    .separator {
+        font-size: 1.2em;
+    }
+
+    .obfuscate-input {
+        height: 8em;
+    }
+}
+
+/* postCircuitObfuscation.html*/
+
+.postCircuitObfuscation {
+    text-align: center;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+.postCircuitObfuscation h1 {
+    font-family: lemonmilk;
+    font-size: 2em;
+    margin-top: 1em;
+}
+
+.postCircuitObfuscation h2 {
+    font-family: sc;
+    font-size: 1.6em;
+    margin-top: 1.4em;
+}
+
+.comparison-container {
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    flex-wrap: wrap;
+    margin: 2em 0;
+}
+
+.button-left,
+.button-right {
+    margin: 0;
+}
+
+.button-left button,
+.button-right button {
+    padding: 10px 20px;
+    font-size: 16px;
+    height: 3.4em;
+    width: 100%; /* Full width for small screens */
+    max-width: 200px; /* Limit width on larger screens */
+}
+
+.results-container {
+    text-align: center;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+}
+
+.results-container table {
+    margin: 2em auto;
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+}
+
+.results-container th,
+.results-container td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.results-container th {
+    background-color: #f2f2f2;
+}
+
+
+.results-container pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.download-button {
+    display: inline-block;
+    margin-top: 1em;
+    font-size: 1.2em;
+    padding: 0.5em 1em;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.download-button:hover {
+    background-color: #c9302c;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .postCircuitObfuscation h1 {
+        font-size: 1.8em;
+    }
+
+    .postCircuitObfuscation h2 {
+        font-size: 1.4em;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .results-container table {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .postCircuitObfuscation h1 {
+        font-size: 1.5em;
+    }
+
+    .postCircuitObfuscation h2 {
+        font-size: 1.2em;
+    }
+
+    .button-left button,
+    .button-right button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .results-container table {
+        width: 100%;
+    }
+
+    .download-button {
+        font-size: 1em;
+        padding: 0.4em 0.8em;
+    }
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0, 0, 0); 
+    background-color: rgba(0, 0, 0, 0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#modalText {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+
+/* Code Block styles */
+
+/* Existing code */
+.code-comparison-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    margin: 20px 0;
+}
+
+/* Add this media query */
+@media (max-width: 768px) {
+    .code-comparison-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.code-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.code-section h2 {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.code-section .code-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Limit maximum width on larger screens */
+}
+
+.code-section pre {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    max-height: 30em; /* Limit the maximum height */
+    background: #2c3e50;
+    padding: 12px;
+    color: #ecf0f1;
+    line-height: 1.4;
+    text-align: left;
+    font-family: 'Source Code Pro', monospace; /* Use a monospaced font */
+    white-space: pre-wrap; /* Wrap long lines */
+    word-break: break-all;
+}
+
+
+.line::before {
+    content: counter(line-numbering);
+    counter-increment: line-numbering;
+    padding-right: 1em;
+    padding-left: 8px;
+    width: 1.5em;
+    text-align: right;
+    opacity: 0.5;
+    color: white;
+}
+
+.highlight-wrapper {
+    display: block;
+}
+
+.highlight {
+    position: relative;
+    z-index: 0;
+    padding: 0;
+    margin: 0;
+    border-radius: 4px;
+}
+
+.highlight>.chroma {
+    background-color: #24475f;
+    position: static;
+    z-index: 1;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.chroma {
+    overflow: auto;
+}
+
+.chroma .lntable {
+    display: table;
+    width: 100%;
+    padding: 0 0 5px;
+    margin: 0;
+    border-spacing: 0;
+    border: 0;
+    overflow: auto;
+}
+
+.chroma .lntd:first-child {
+    padding: 7px 7px 7px 10px;
+    margin: 0;
+}
+
+.chroma .lntd:last-child {
+    padding: 7px 10px 7px 7px;
+    margin: 0;
+}
+
+.copy-button-container {
+    position: absolute;
+    top: 10px; 
+    right: 25px; 
+}
+
+.copy-code-button 
+{
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 14px;
+    height: 2.2em;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 4px 4px 5px 4px;
+    margin: 0 0 0 1px;
+    cursor: pointer;
+}
+
+.copy-code-button:hover,
+.copy-code-button:focus,
+.copy-code-button:active,
+.copy-code-button:active:hover {
+    color: #222225;
+    background-color: #b3b3b3;
+    opacity: 0.8;
+}
+
+.copyable-text-area {
+    position: absolute;
+    height: 0;
+    z-index: -1;
+    opacity: 0.01;
+}

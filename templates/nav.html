@@ -1,0 +1,42 @@
+<!-- Nav -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white" id="navBar">
+    <div class="container-fluid">
+        <!-- Logo and Text -->
+        <a class="navbar-brand d-lg-flex align-items-center justify-content-lg-start justify-content-center w-100 w-lg-auto" href="/">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+            <h1>ObfusQate</h1>
+        </a>
+
+        <!-- Toggler for Mobile View -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item {{ 'current' if current_path == '/' else '' }}">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item dropdown {{ 'current' if current_path == '/methods' else '' }}">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Obfuscation
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" id="navbarDropdown">                        
+                        <a class="dropdown-item" href="/methods#circuitSection">Circuit Obfuscation</a>
+                        <a class="dropdown-item" href="/methods#codeSection">Code Obfuscation</a>
+                    </div>
+                </li>
+                <li class="nav-item {{ 'current' if current_path == '/aboutUs' else '' }}">
+                    <a class="nav-link" href="/aboutUs">About Us</a>
+                </li>
+                <li class="nav-item {{ 'current' if current_path == '/howTo' else '' }}">
+                    <a class="nav-link" href="/howTo">How to Use</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+

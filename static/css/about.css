@@ -1,0 +1,99 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Mar 14, 2023, 6:44:43 PM
+    Author     : MalcolmST
+*/
+
+@font-face {
+    font-family: lemonmilk;
+    src: url('../fonts/LemonMilk.otf');
+}
+
+.container-aboutUs {
+    text-align: center;
+}
+
+.container-aboutUs img {
+    max-width: 10vw;
+    height: auto;
+}
+
+.container-aboutUs h1 
+{
+    font-family: lemonmilk;
+    font-size: 1.5em;
+    margin: 0.2em 0;
+}
+
+.container-aboutUs h2 
+{
+    font-family: lemonmilk;
+    font-size: 1.2em;
+    margin: 0.5em 0;
+}
+
+.about-content 
+{
+    margin: 0 auto;
+    max-width: 60vw;
+}
+
+.about-content .content-column 
+{
+    font-family: sans-serif;
+    text-align: left;
+    color: black;
+}
+
+.about-content .content-column h1
+{
+    padding: 2em 0 1em 0;
+}
+
+/* Global Reset for margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header section styling */
+#header {
+    margin: 0;
+    padding: 0; /* No extra padding to avoid unnecessary gaps */
+}
+
+/* About section (hidden on mobile) */
+#About {
+    margin-bottom: 0;  /* Ensuring no margin after the About section */
+    padding: 0;
+}
+
+/* Main content section */
+main {
+    margin: 0;
+    padding: 0.5px;  /* Minimal padding for breathing room */
+    background-color: white;  /* Ensure background color consistency */
+}
+
+/* Avoid pseudo-elements creating unwanted lines */
+#header::before, #header::after, main::before, main::after {
+    content: none;
+    display: none;
+}
+
+/* Basic spacing for content elements */
+main h1, main p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+
+

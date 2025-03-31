@@ -1,0 +1,211 @@
+@font-face {
+    font-family: lemonmilk;
+    src: url('../fonts/LemonMilk.otf');
+}
+
+/*League Spartan font*/
+@font-face {
+    font-family: ls;
+    src: url('../fonts/ls.otf');
+}
+
+@font-face {
+    font-family: cc;
+    src: url('../fonts/cc.otf');
+}
+
+@font-face {
+    font-family: sc;
+    src: url('../fonts/sc.ttf');
+}
+
+html, body {
+    height: 100%;
+}
+
+#page-wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#page-wrapper > section {
+    flex: 1;
+}
+
+#header
+{
+    height: 80vh
+}
+
+/*All the columns part should be not in use anymore
+.columns {
+    display: flex;
+    justify-content: space-around;
+    max-height: 100vh;
+    padding-top: 2em;
+    max-width: 100vw;
+    padding-bottom: 2em;
+    height: 29em;
+
+}
+
+.columns h2
+{
+    font-family: lemonmilk;
+}
+
+.columns p
+{
+    font-family: sc;
+    font-size: 1.2rem;
+    color: black;
+    font-weight: 500;
+    margin: 1em;
+}
+
+.columns b
+{
+    font-weight: 1000;
+}
+
+
+.column1 {
+    flex: 1;
+    margin: 0 10px;
+    max-width: 30em;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.column1 img {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.column1 h2
+{
+    margin-top: 1.5em;
+
+}
+
+.column2 {
+    flex: 1;
+    margin: 0 10px;
+    width: 40em;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.column2 img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 35px;
+}
+
+.column2 h2
+{
+    margin-top: 1.7em;
+}
+
+.column3 {
+    flex: 1;
+    margin: 0 10px;
+    max-width: 30em;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.column3 img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.column3 h2
+{
+    margin-top: 1.5em;
+}*/
+
+@media screen and (max-width: 576 ) {
+.first, .middle {
+    border-bottom: 2px solid #666;
+    padding-bottom: 40px !important;
+}
+}
+@media screen and (max-width: 1024px) {
+    .middle h2 {
+        margin-top: -1.04em !important;
+        margin-bottom: 0.75em !important;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .last h2 {
+        margin-top: -2.18em !important;
+        margin-bottom: 0.75em !important;
+    }
+}
+
+.middle img{
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 65px;
+    margin-top:43px;
+
+}
+
+.last img{
+    max-width: 85%;
+    height: auto;
+    margin-bottom: 65px;
+    margin-top:43px;
+
+}
+
+.first h2{
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+}
+
+.middle h2{
+
+    margin-top: 0.38em;
+    margin-bottom: 0.79em;
+}
+
+.middle p{
+    margin-bottom: 1em;
+}
+
+.last h2{
+    margin-top: -1.10em;
+    margin-bottom: 0.81em;
+}
+
+.last p{
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+html, body {
+    height: 100%;
+}
+
+#page-wrapper {
+    min-height: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+#page-wrapper > section {
+    flex: 1;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/obfuscate.css') }}">
+    <title>ObfusQate</title>
+</head>
+
+<body class="homepage is-preload" onload="setup()">
+    <div id="page-wrapper">
+        <!-- Navbar-->
+        {% include 'nav.html' %}
+        <!-- Header -->
+        <section id="header">
+
+            <!-- Intro -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <ul class="flash-messages">
+                {% for category, message in messages %}
+                <li class="flash-message {{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+            <div class="obfuscate-main">
+                <h1>Method: {{ method_names[method] }}</h1>
+                <div class="input-container">
+                    <div class="input-column">
+                        <form action="{{ url_for('obfuscate.handle_CircuitObfuscate') }}" method="post">
+                            <p style="color: red; font-weight: 400;">The code below is a sample code, please remove and
+                                replace with your QASM code!</p>
+                            <textarea name="code_input" class="obfuscate-input">{{qasm_code}}</textarea>
+                            <button type="submit" class="obfuscate-button" name="obfuscate-button"
+                                value="obfuscate">Obfuscate</button>
+                            <input type="hidden" name="method" value="{{ method }}">
+                        </form>
+                    </div>
+                    <div class="separator">
+                        <span>OR</span>
+                    </div>
+                    <div class="input-column">
+                        <form id="uploadForm" method="post" action="{{ url_for('obfuscate.handle_CircuitObfuscate') }}"
+                            enctype="multipart/form-data">
+                            <input id="fileid" name="file_input" type="file" accept=".qasm" style="display:none;"
+                                onchange="displayFileName()" />
+                            <input class="file-upload-button" id="buttonid" type="button" value="Upload a QASM File" />
+                            <input type="hidden" name="method" value="{{ method }}">
+                            <p id="fileNameDisplay"></p>
+                            <p class="upload-info">After uploading the file, click on continue!</p>
+                            <button id="continue-button" class="continue-button" type="submit" name="continue-button"
+                                value="continue">Continue</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+
+
+</body>
+
+<!-- Footer -->
+{% include 'footer.html' %}
+
+<!-- Scripts -->
+<!-- Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+<!-- Scripts -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</html>
